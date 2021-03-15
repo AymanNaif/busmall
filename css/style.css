@@ -13,13 +13,13 @@
     margin: 20px;
     border-radius: 25px;
     padding: 15px;
-    border: blue 15px solid;
+    border: #00909e 15px solid;
 }
 #rightImage {
     height:375x;
     width:300px;
     margin: 20px;
-    border: blue 15px solid;
+    border: #00909e 15px solid;
     border-radius: 25px;
     padding: 15px;
 }
@@ -27,7 +27,7 @@
     height:375x;
     width:300px;
     margin: 20px;
-    border: blue 15px solid;
+    border: #00909e 15px solid;
     border-radius: 25px;
     padding: 15px;
 }

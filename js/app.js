@@ -1,27 +1,6 @@
 'use strict';
 
-const nameP= [
-  'bag',
-  'banana',
-  'bathroom',
-  'boots',
-  'breakfast',
-  'bubblegum',
-  'chair',
-  'cthulhu',
-  'dog-duck',
-  'dragon',
-  'pen',
-  'pet-sweep',
-  'scissors',
-  'shark',
-  'sweep',
-  'tauntaun',
-  'unicorn',
-  'usb',
-  'water-can',
-  'wine-glass',
-];
+const nameP= ['bag','banana','bathroom','boots','breakfast','bubblegum','chair','cthulhu','dog-duck','dragon','pen','pet-sweep','scissors','shark','sweep','tauntaun','unicorn','usb','water-can','wine-glass',];
 const imageSection=document.getElementById('mainSection');
 const leftImage=document.getElementById('leftImage');
 const centerImage=document.getElementById('centerImage');
@@ -62,18 +41,22 @@ function showImage(){
   rightImage.alt=rightPicProduct.productName;
 }
 
-let resultArray=[];
 imageSection.addEventListener('click',clickHandler);
+let maxTrials=5;
 function clickHandler(event){
+  maxTrials-=1;
   if (event.target.id === 'leftImage' || event.target.id === 'centerImage' || event.target.id === 'rightImage'){
     for(let i=0;i<Product.array.length;i++){
       if (Product.array[i].productName === event.target.title){
         Product.array[i].votes++;
         Product.array[i].views++;
-        resultArray.push(Product.array[i]);
       }
-    }console.log(resultArray);
+    }
+
     showImage();
+  }if(maxTrials===0){
+    imageSection.removeEventListener('click',clickHandler);
+    makeChart();
   }
 }
 
@@ -82,5 +65,43 @@ function imagNumber(min, max) {
 }
 showImage();
 
+function makeChart(){
+  let productVotesArray=[];
+  for (let i=0;i<Product.array.length;i++){
+    (productVotesArray).push((Product.array[i].votes));
+  } console.table(productVotesArray); // Views data array
+  let productViewsArray=[];
+  for (let i=0;i<Product.array.length;i++){
+    (productViewsArray).push((Product.array[i].views));
+  } console.table(productViewsArray); // Views data array
+  let myChart = document.getElementById('myChart').getContext('2d');
 
+  let dataBase={
+    // The type of chart we want to create
+    type: 'horizontalBar',
 
+    // The data for our dataset
+    data: {
+      labels:nameP,
+      datasets: [{
+        label: 'Votes',
+        backgroundColor: 'rgb(255, 99, 132)',
+        borderColor: 'rgb(255, 99, 132)',
+        data: productVotesArray
+      },{
+        label:'Views',
+        backgroundColor: 'rgb(255, 99, 132)',
+        borderColor: 'rgb(255, 99, 132)',
+        data: productViewsArray
+      }
+      ]
+    },
+
+    // Configuration options go here
+    options: {}
+  };
+
+  let barChart = new Chart(myChart,dataBase);
+}
+showImage();
+// makeChart();
