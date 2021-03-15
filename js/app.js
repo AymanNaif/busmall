@@ -85,13 +85,13 @@ function makeChart(){
       labels:nameP,
       datasets: [{
         label: 'Votes',
-        backgroundColor: 'rgb(255, 99, 132)',
-        borderColor: 'rgb(255, 99, 132)',
+        backgroundColor: '#2c061f',
+        borderColor: '#caf7e3',
         data: productVotesArray
       },{
         label:'Views',
-        backgroundColor: 'rgb(255, 99, 132)',
-        borderColor: 'rgb(255, 99, 132)',
+        backgroundColor: '#ff577f',
+        borderColor: '#caf7e3',
         data: productViewsArray
       }
       ]
