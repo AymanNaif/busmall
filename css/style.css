@@ -31,3 +31,22 @@
     border-radius: 25px;
     padding: 15px;
 }
+
+#dataStorage{
+    font-size: 20px;
+    font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+    font-weight: bold;
+    border: #ff577f 2px solid;
+    float: left;
+    margin-left: 200px;
+    color: #2c061f;
+}
+#views{
+    font-size: 20px;
+    font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+    font-weight: bold;
+    border: #2c061f 2px solid;
+    float: right;
+    margin-right: 200px;
+    color: #ff577f;
+}
