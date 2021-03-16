@@ -5,51 +5,82 @@ const imageSection=document.getElementById('mainSection');
 const leftImage=document.getElementById('leftImage');
 const centerImage=document.getElementById('centerImage');
 const rightImage=document.getElementById('rightImage');
+let imgObject = [];
 
 function Product(productName){
   this.productName=productName;
   this.votes=0;
   this.views=0;
   this.path=`./Image/${productName}.jpg`; //${ImgExc}
-  Product.array.push(this);
 }
-Product.array=[];
 
-
-for(let i=0;i<nameP.length;i++){
-  new Product(nameP[i]);
-
+for(let i  = 0;i < nameP.length;i++){
+  imgObject.push(new Product(nameP[i]));
 }
+
+let allImgs = [22,22,22];
 
 function showImage(){
-  const leftPic=imagNumber(0,Product.array.length-1);
-  const leftPicProduct=Product.array[leftPic];
-  leftImage.src=leftPicProduct.path;
-  leftImage.title=leftPicProduct.productName;
-  leftImage.alt=leftPicProduct.productName;
+  let i = 0;
+  let leftPic=imagNumber(0,imgObject.length-1);
 
-  const centerPic=imagNumber(0,Product.array.length-1);
-  const centerPicProduct=Product.array[centerPic];
-  centerImage.src=centerPicProduct.path;
-  centerImage.title=centerPicProduct.productName;
-  centerImage.alt=centerPicProduct.productName;
+  while (i < 1){
+    if (allImgs.includes(leftPic)){
+      leftPic = imagNumber(0,imgObject.length-1);
+    }else{
+      allImgs[0] = leftPic;
+      imgObject[leftPic].views +=1;
+      i = 1;
+    }
+  }
+  leftImage.src=imgObject[leftPic].path;
+  leftImage.title=imgObject[leftPic].productName;
+  leftImage.alt=imgObject[leftPic].productName;
 
-  const rightPic=imagNumber(0,Product.array.length-1);
-  const rightPicProduct=Product.array[rightPic];
-  rightImage.src=rightPicProduct.path;
-  rightImage.title=rightPicProduct.productName;
-  rightImage.alt=rightPicProduct.productName;
+  i = 0;
+
+  let centerPic=imagNumber(0,imgObject.length-1);
+
+  while (i < 1){
+    if (allImgs.includes(centerPic) || centerPic === leftPic){
+      centerPic = imagNumber(0,imgObject.length-1);
+    }else{
+      allImgs[1] = centerPic;
+      imgObject[centerPic].views +=1;
+      i = 1;
+    }
+  }
+  centerImage.src=imgObject[centerPic].path;
+  centerImage.title=imgObject[centerPic].productName;
+  centerImage.alt=imgObject[centerPic].productName;
+
+  i = 0;
+
+  let rightPic=imagNumber(0,imgObject.length-1);
+
+  while (i < 1){
+    if (allImgs.includes(rightPic) || rightPic === leftPic || rightPic === centerPic){
+      rightPic = imagNumber(0,imgObject.length-1);
+    }else{
+      allImgs[2] = rightPic;
+      imgObject[rightPic].views +=1;
+      i = 1;
+    }
+  }
+
+  rightImage.src=imgObject[rightPic].path;
+  rightImage.title=imgObject[rightPic].productName;
+  rightImage.alt=imgObject[rightPic].productName;
 }
 
 imageSection.addEventListener('click',clickHandler);
-let maxTrials=5;
+let maxTrials=25;
 function clickHandler(event){
   maxTrials-=1;
   if (event.target.id === 'leftImage' || event.target.id === 'centerImage' || event.target.id === 'rightImage'){
-    for(let i=0;i<Product.array.length;i++){
-      if (Product.array[i].productName === event.target.title){
-        Product.array[i].votes++;
-        Product.array[i].views++;
+    for(let i=0;i<imgObject.length;i++){
+      if (imgObject[i].productName === event.target.title){
+        imgObject[i].votes++;
       }
     }
 
@@ -67,13 +98,13 @@ showImage();
 
 function makeChart(){
   let productVotesArray=[];
-  for (let i=0;i<Product.array.length;i++){
-    (productVotesArray).push((Product.array[i].votes));
+  for (let i=0;i<imgObject.length;i++){
+    productVotesArray.push(imgObject[i].votes);
   } console.table(productVotesArray); // Views data array
-  let productViewsArray=[];
-  for (let i=0;i<Product.array.length;i++){
-    (productViewsArray).push((Product.array[i].views));
-  } console.table(productViewsArray); // Views data array
+  // let productViewsArray=[];
+  // for (let i=0;imgObject.length;i++){
+  //   productViewsArray.push(imgObject[i].views);
+  // } console.table(productViewsArray); // Views data array
   let myChart = document.getElementById('myChart').getContext('2d');
 
   let dataBase={
@@ -92,7 +123,7 @@ function makeChart(){
         label:'Views',
         backgroundColor: '#ff577f',
         borderColor: '#caf7e3',
-        data: productViewsArray
+        data: [1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20]
       }
       ]
     },
@@ -104,4 +135,6 @@ function makeChart(){
   let barChart = new Chart(myChart,dataBase);
 }
 showImage();
-// makeChart();
+// makeChart()
+
+
