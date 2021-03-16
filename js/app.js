@@ -6,6 +6,7 @@ const leftImage=document.getElementById('leftImage');
 const centerImage=document.getElementById('centerImage');
 const rightImage=document.getElementById('rightImage');
 let imgObject = [];
+let viewsArr = [];
 
 function Product(productName){
   this.productName=productName;
@@ -67,14 +68,15 @@ function showImage(){
       i = 1;
     }
   }
-
   rightImage.src=imgObject[rightPic].path;
   rightImage.title=imgObject[rightPic].productName;
   rightImage.alt=imgObject[rightPic].productName;
 }
 
+
 imageSection.addEventListener('click',clickHandler);
 let maxTrials=25;
+
 function clickHandler(event){
   maxTrials-=1;
   if (event.target.id === 'leftImage' || event.target.id === 'centerImage' || event.target.id === 'rightImage'){
@@ -87,6 +89,10 @@ function clickHandler(event){
     showImage();
   }if(maxTrials===0){
     imageSection.removeEventListener('click',clickHandler);
+
+    for (let j  = 0;j<imgObject.length;j++){
+      viewsArr.push(imgObject[j].views);
+    }
     makeChart();
   }
 }
@@ -96,15 +102,19 @@ function imagNumber(min, max) {
 }
 showImage();
 
+
 function makeChart(){
   let productVotesArray=[];
   for (let i=0;i<imgObject.length;i++){
     productVotesArray.push(imgObject[i].votes);
-  } console.table(productVotesArray); // Views data array
-  // let productViewsArray=[];
-  // for (let i=0;imgObject.length;i++){
-  //   productViewsArray.push(imgObject[i].views);
-  // } console.table(productViewsArray); // Views data array
+  } // console.table(productVotesArray); Votes data array
+
+
+  for(let i=0;i<nameP.length;i++){
+    localStorage.setItem(nameP[i],'votes is: '+JSON.stringify(productVotesArray[i]));
+  }
+
+
   let myChart = document.getElementById('myChart').getContext('2d');
 
   let dataBase={
@@ -123,7 +133,7 @@ function makeChart(){
         label:'Views',
         backgroundColor: '#ff577f',
         borderColor: '#caf7e3',
-        data: [1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20]
+        data: viewsArr
       }
       ]
     },
@@ -136,5 +146,6 @@ function makeChart(){
 }
 showImage();
 // makeChart()
+
 
 
