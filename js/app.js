@@ -6,7 +6,7 @@ const leftImage=document.getElementById('leftImage');
 const centerImage=document.getElementById('centerImage');
 const rightImage=document.getElementById('rightImage');
 let imgObject = [];
-let viewsArr = [];
+let productViewsArray = [];
 
 function Product(productName){
   this.productName=productName;
@@ -75,7 +75,7 @@ function showImage(){
 
 
 imageSection.addEventListener('click',clickHandler);
-let maxTrials=25;
+let maxTrials=5;
 
 function clickHandler(event){
   maxTrials-=1;
@@ -91,7 +91,7 @@ function clickHandler(event){
     imageSection.removeEventListener('click',clickHandler);
 
     for (let j  = 0;j<imgObject.length;j++){
-      viewsArr.push(imgObject[j].views);
+      productViewsArray.push(imgObject[j].views);
     }
     makeChart();
   }
@@ -109,10 +109,8 @@ function makeChart(){
     productVotesArray.push(imgObject[i].votes);
   } // console.table(productVotesArray); Votes data array
 
+  // console.log(localStorage.getItem('ProuductVotes') );
 
-  for(let i=0;i<nameP.length;i++){
-    localStorage.setItem(nameP[i],'votes is: '+JSON.stringify(productVotesArray[i]));
-  }
 
 
   let myChart = document.getElementById('myChart').getContext('2d');
@@ -133,7 +131,7 @@ function makeChart(){
         label:'Views',
         backgroundColor: '#ff577f',
         borderColor: '#caf7e3',
-        data: viewsArr
+        data: productViewsArray
       }
       ]
     },
@@ -143,9 +141,30 @@ function makeChart(){
   };
 
   let barChart = new Chart(myChart,dataBase);
+
+  var newData = productVotesArray;
+  function saveData(){
+    if(localStorage.getItem('ProuductVotes') === null){
+      localStorage.setItem('ProuductVotes',productVotesArray);
+      console.log('im new data'+newData);
+    }
+  }saveData();
+  function viewData(){
+
+    var oldData=localStorage.getItem('ProuductVotes');
+    console.log('im old data'+oldData);
+
+    oldData.push(newData);
+    localStorage.setItem('ProuductVotes',JSON.stringify(oldData));
+    if(localStorage.getItem('ProuductVotes') !== null){
+      document.getElementById('dataStorage').innerHTML=localStorage.getItem('ProuductVotes');
+      console.log(JSON.parse(localStorage.getItem('ProuductVotes')));
+    }
+  }viewData();
 }
 showImage();
-// makeChart()
+makeChart();
+
 
 
 
