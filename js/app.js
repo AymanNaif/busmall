@@ -7,7 +7,6 @@ const centerImage=document.getElementById('centerImage');
 const rightImage=document.getElementById('rightImage');
 let imgObject = [];
 let productViewsArray = [];
-
 function Product(productName){
   this.productName=productName;
   this.votes=0;
@@ -73,9 +72,9 @@ function showImage(){
   rightImage.alt=imgObject[rightPic].productName;
 }
 
-
+// function addEveryThing (){
 imageSection.addEventListener('click',clickHandler);
-let maxTrials=5;
+let maxTrials=25;
 
 function clickHandler(event){
   maxTrials-=1;
@@ -89,22 +88,23 @@ function clickHandler(event){
     showImage();
   }if(maxTrials===0){
     imageSection.removeEventListener('click',clickHandler);
-
+    localStorage.setItem('imgObject',JSON.stringify(imgObject));
     for (let j  = 0;j<imgObject.length;j++){
       productViewsArray.push(imgObject[j].views);
     }
     makeChart();
   }
+
 }
+// }
+
 
 function imagNumber(min, max) {
   return Math.floor(Math.random() * (max - min + 1)) + min;
 }
 showImage();
-
-
+let productVotesArray=[];
 function makeChart(){
-  let productVotesArray=[];
   for (let i=0;i<imgObject.length;i++){
     productVotesArray.push(imgObject[i].votes);
   } // console.table(productVotesArray); Votes data array
@@ -136,68 +136,24 @@ function makeChart(){
       ]
     },
 
-    // Configuration options go here
+
     options: {}
   };
 
   let barChart = new Chart(myChart,dataBase);
 
-  // var newData = productVotesArray;
-  // function saveData(){
-  //   if(localStorage.getItem('ProuductVotes') === null){
-  //     localStorage.setItem('ProuductVotes',productVotesArray);
-  //     console.log('im new data'+newData);
-  //   }
-  // }saveData();
-  // function viewData(){
-
-  //   var oldData=localStorage.getItem('ProuductVotes');
-  //   console.log('im old data'+oldData);
-
-  //   oldData.push(newData);
-  //   localStorage.setItem('ProuductVotes',JSON.stringify(oldData));
-  //   if(localStorage.getItem('ProuductVotes') !== null){
-  //     document.getElementById('dataStorage').innerHTML=localStorage.getItem('ProuductVotes');
-  //     console.log(JSON.parse(localStorage.getItem('ProuductVotes')));
-  //   }
-  // }viewData();
-
-  const ul = document.getElementById('dataStorage');
-  const dataVotes= JSON.parse(localStorage.getItem('ProuductVotes'));
-  function createLi(text){
-    const li = document.createElement('li');
-    li.textContent= text;
-    ul.appendChild(li);
-    if(localStorage.getItem('ProuductVotes') === null){
-      localStorage.setItem('ProuductVotes',JSON.stringify(productVotesArray));
-
-    }
-  }
-  for (let a=0;a<nameP.length;a++){
-    createLi('The Votes for '+nameP[a]+' is ' +dataVotes[a]);
-  }
-  const ulV = document.getElementById('views');
-  const dataView= JSON.parse(localStorage.getItem('ProuductVotes'));
-  function createLiV(text){
-    const li = document.createElement('li');
-    li.textContent= text;
-    ulV.appendChild(li);
-    if(localStorage.getItem('ProuductVotes') === null){
-      localStorage.setItem('ProuductVotes',JSON.stringify(productViewsArray));
-
-    }
-  }
-  for (let a=0;a<nameP.length;a++){
-    createLiV('The Views for '+nameP[a]+' is ' +dataView[a]);
-  }
-
-
-
 
 }
 showImage();
-// makeChart();
 
+function getData(){
+  let getItem=JSON.parse(localStorage.getItem('imgObject'));
+  if( JSON.parse(localStorage.getItem('imgObject'))=== null){
+    console.log('hello');
+  }
+  else{
+    imgObject=getItem;
+  }
+}
 
-
-
+getData();
